@@ -53,13 +53,22 @@ class portfolio:
 		self.long = (-1)*trade_signal().trade_signal*strategy().open*self.lot_size_long*self.contract_size
 		return self.long
 
-
+	def pos_delta(self):
+		self.open_bal = self.initial_cash
+		while self.open_bal >= 0:
+			if trade_signal().trade_signal == 1:
+				self.pos_delta = trade_signal().trade_signal* self.lot_size_long
+			elif trade_signal().trade_signal == -1:
+				self.pos_delta = trade_signal().trade_signal* self.lot_size_short
+			else:
+				self.pos_delta = 0
+		return self.pos_delta
 
 
 '''test code to calculate the open_bal, end_bal, cash_delta, open_pos, pos_delta, and end_pos'''
 	# def get_prev_end_bal(self,open_bal):
 	
-'''create an instance of portfolio'''
+'''create an instance of portfolio, named == 'mav' '''
 initial_cash = 10000
 lot_size_short = 1
 lot_size_long = 1
@@ -74,7 +83,7 @@ df['test_open_bal'] = 1
 df['test_cash_delta'] = 1
 df['test_end_bal'] = 1
 df['test_open_pos'] = 1
-df['test_pos_delta'] = 1
+df['test_pos_delta'] = p.pos_delta()
 df['test_end_bal'] = 1
 
 print(df)
